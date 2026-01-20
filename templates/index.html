@@ -24,7 +24,8 @@
 </div>
 
 <script>
-  const socket = io();
+  const socket = io("https://aula-chat.onrender.com"); // tu URL pública de Render
+
 
   socket.on("message", function(msg) {
     const p = document.createElement("p");
