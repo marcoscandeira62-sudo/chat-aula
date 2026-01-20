@@ -14,7 +14,7 @@ def index():
 
 @socketio.on("message")
 def recibir_mensaje(msg):
-    send(msg, broadcast=True)
+    send(msg, broadcast=True)  # Todos los clientes reciben el mensaje
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
