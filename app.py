@@ -1,9 +1,12 @@
 import os
+import eventlet
+eventlet.monkey_patch()
+
 from flask import Flask, render_template
 from flask_socketio import SocketIO, send
 
 app = Flask(__name__)
-socketio = SocketIO(app, cors_allowed_origins="*")
+socketio = SocketIO(app, cors_allowed_origins="*", async_mode="eventlet")
 
 @app.route("/")
 def index():
@@ -15,10 +18,5 @@ def recibir_mensaje(msg):
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    socketio.run(
-        app,
-        host="0.0.0.0",
-        port=port,
-        allow_unsafe_werkzeug=True
-    )
+    socketio.run(app, host="0.0.0.0", port=port)
 
