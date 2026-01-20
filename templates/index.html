@@ -1,11 +1,31 @@
-<script>
-  // Cambia esta URL a la que Render te da exactamente
-  const SERVER_URL = "https://aula-chat.onrender.com"; 
-  const socket = io("https://chat-aula-2b82.onrender.com", { transports: ["websocket", "polling"] });
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat Aula</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="chat">
+  <h2>Chat del Aula</h2>
+  <input id="nombre" placeholder="Tu nombre">
+  <div id="mensajes"></div>
+  <div class="barra">
+    <input id="mensaje" placeholder="Escribe un mensaje">
+    <button onclick="enviar()">Enviar</button>
+  </div>
+</div>
 
+<!-- 1️⃣ Cargar Socket.IO desde CDN confiable -->
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js" integrity="sha384-wnm2M6Fp+2fB7D4p1Rf9l5aVf3rXvHHB76E14Dkv4QY/yrfJzKr+9B/E6K0K0Wh3" crossorigin="anonymous"></script>
+
+<!-- 2️⃣ Tu código después de cargar Socket.IO -->
+<script>
+  const SERVER_URL = "https://chat-aula-2b82.onrender.com";
+  const socket = io(SERVER_URL, { transports: ["websocket", "polling"] });
 
   const nombreInput = document.getElementById("nombre");
-
   const storedName = localStorage.getItem("chatNombre");
   if (storedName) nombreInput.value = storedName;
 
@@ -30,5 +50,8 @@
     document.getElementById("mensaje").value = "";
   }
 </script>
+</body>
+</html>
+
 
 
