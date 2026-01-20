@@ -1,7 +1,8 @@
 <script>
   // Cambia esta URL a la que Render te da exactamente
   const SERVER_URL = "https://aula-chat.onrender.com"; 
-  const socket = io(SERVER_URL, { transports: ["websocket", "polling"] });
+  const socket = io("https://chat-aula-2b82.onrender.com", { transports: ["websocket", "polling"] });
+
 
   const nombreInput = document.getElementById("nombre");
 
