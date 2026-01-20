@@ -11,7 +11,6 @@ socketio = SocketIO(app, cors_allowed_origins="*", async_mode="eventlet")
 
 # Colores para usuarios
 colors = ["#e6194b","#3cb44b","#ffe119","#4363d8","#f58231","#911eb4","#46f0f0","#f032e6"]
-
 user_colors = {}  # nombre -> color
 
 @app.route("/")
@@ -28,10 +27,5 @@ def recibir_mensaje(msg):
     if nombre not in user_colors:
         user_colors[nombre] = random.choice(colors)
     hora = datetime.now().strftime("%H:%M")
-    # Enviar diccionario a todos
-    socketio.emit("message", {"nombre": nombre, "texto": texto, "hora": hora, "color": user_colors[nombre]})
-
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    socketio.run(app, host="0.0.0.0", port=port)
+    socketio.emit("message", {"nombre": nombre, "texto": texto, "
 
