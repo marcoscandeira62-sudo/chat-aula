@@ -1,21 +1,27 @@
 body {
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   background: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
 }
 
 .chat {
-  max-width: 500px;
-  margin: auto;
   background: white;
-  padding: 10px;
+  padding: 15px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
 
 #mensajes {
-  height: 300px;
-  overflow-y: auto;
   border: 1px solid #ccc;
+  height: 300px;
+  overflow-y: scroll;
+  padding: 10px;
   margin: 10px 0;
-  padding: 5px;
+  background: #fafafa;
 }
 
 .barra {
@@ -24,8 +30,20 @@ body {
 
 .barra input {
   flex: 1;
+  padding: 8px;
 }
 
-button {
-  padding: 10px;
+.barra button {
+  padding: 8px 12px;
+  margin-left: 5px;
+  background-color: #4363d8;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
 }
+
+.barra button:hover {
+  background-color: #3650b3;
+}
+
