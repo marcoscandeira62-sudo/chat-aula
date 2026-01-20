@@ -24,24 +24,31 @@
 </div>
 
 <script>
-  const socket = io("https://aula-chat.onrender.com"); // tu URL pública de Render
-
+  // Cambia aquí por tu URL pública de Render
+  const socket = io("https://aula-chat.onrender.com"); 
 
   socket.on("message", function(msg) {
     const p = document.createElement("p");
     p.textContent = msg;
     document.getElementById("mensajes").appendChild(p);
+    // Mantener scroll abajo
+    document.getElementById("mensajes").scrollTop = document.getElementById("mensajes").scrollHeight;
   });
 
   function enviar() {
     const nombre = document.getElementById("nombre").value;
     const mensaje = document.getElementById("mensaje").value;
 
-    if (nombre && mensaje) {
-      socket.send(nombre + ": " + mensaje);
-      document.getElementById("mensaje").value = "";
+    if (!nombre) {
+      alert("Introduce tu nombre");
+      return;
     }
+    if (!mensaje) return;
+
+    socket.send(nombre + ": " + mensaje);
+    document.getElementById("mensaje").value = "";
   }
 </script>
 </body>
 </html>
+
