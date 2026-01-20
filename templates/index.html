@@ -24,20 +24,18 @@
 </div>
 
 <script>
-  // Cambia aquí por tu URL pública de Render
-  const socket = io("https://aula-chat.onrender.com"); 
+  const socket = io("https://aula-chat.onrender.com"); // tu URL pública de Render
 
-  socket.on("message", function(msg) {
+  socket.on("message", function(data) {
     const p = document.createElement("p");
-    p.textContent = msg;
+    p.innerHTML = `<span style="color:${data.color}">${data.nombre}</span> [${data.hora}]: ${data.texto}`;
     document.getElementById("mensajes").appendChild(p);
-    // Mantener scroll abajo
     document.getElementById("mensajes").scrollTop = document.getElementById("mensajes").scrollHeight;
   });
 
   function enviar() {
-    const nombre = document.getElementById("nombre").value;
-    const mensaje = document.getElementById("mensaje").value;
+    const nombre = document.getElementById("nombre").value.trim();
+    const mensaje = document.getElementById("mensaje").value.trim();
 
     if (!nombre) {
       alert("Introduce tu nombre");
@@ -51,4 +49,5 @@
 </script>
 </body>
 </html>
+
 
