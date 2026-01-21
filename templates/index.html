@@ -1,39 +1,71 @@
-const socket = io();
-const msgInput = document.getElementById('myMessage');
-const userInput = document.getElementById('username');
-const sendBtn = document.getElementById('sendButton');
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Aula Online</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+</head>
+<body>
+    <div id="chat-container">
+        <input type="text" id="username" placeholder="Tu nombre de usuario..." maxlength="15">
+        
+        <div id="messages"></div>
 
-// Función para generar un color único basado en el nombre
-function stringToColor(str) {
-    let hash = 0;
-    for (let i = 0; i < str.length; i++) {
-        hash = str.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    return `hsl(${hash % 360}, 70%, 45%)`; // Color vibrante pero legible
-}
+        <div class="input-area">
+            <input type="text" id="myMessage" placeholder="Escribe un mensaje..." autocomplete="off">
+            <button id="sendButton">Enviar</button>
+        </div>
+    </div>
 
-sendBtn.onclick = () => {
-    if (msgInput.value.trim() !== "") {
-        const user = userInput.value || "Anónimo";
-        // Enviamos un objeto con nombre y mensaje por separado
-        socket.send({ name: user, text: msgInput.value });
-        msgInput.value = '';
-    }
-};
+    <script>
+        const socket = io();
+        const msgInput = document.getElementById('myMessage');
+        const userInput = document.getElementById('username');
+        const sendBtn = document.getElementById('sendButton');
+        const messagesDiv = document.getElementById('messages');
 
-socket.on('message', (data) => {
-    const p = document.createElement('p');
-    const color = stringToColor(data.name);
-    
-    // Creamos una estructura interna con el nombre en negrita y su color
-    p.innerHTML = `<strong style="color: ${color}">${data.name}:</strong> ${data.text}`;
-    
-    const msgContainer = document.getElementById('messages');
-    msgContainer.appendChild(p);
-    
-    // Auto-scroll al último mensaje
-    msgContainer.scrollTop = msgContainer.scrollHeight;
-});
+        // Genera un color único para cada nombre
+        function stringToColor(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                hash = str.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            return `hsl(${Math.abs(hash) % 360}, 70%, 40%)`;
+        }
+
+        function sendMessage() {
+            const name = userInput.value.trim() || "Anónimo";
+            const text = msgInput.value.trim();
+            
+            if (text !== "") {
+                socket.send({ name: name, text: text });
+                msgInput.value = '';
+            }
+        }
+
+        sendBtn.onclick = sendMessage;
+
+        // Permite enviar con la tecla Enter
+        msgInput.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") sendMessage();
+        });
+
+        socket.on('message', (data) => {
+            const p = document.createElement('div');
+            p.className = 'message-bubble';
+            const userColor = stringToColor(data.name);
+            
+            p.innerHTML = `<strong style="color: ${userColor}">${data.name}</strong><span>${data.text}</span>`;
+            messagesDiv.appendChild(p);
+            
+            // Scroll automático al último mensaje
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        });
+    </script>
+</body>
+</html>
 
 
 
